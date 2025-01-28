@@ -1,0 +1,58 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © nnamdert
+//This template can be used to set the number of lines to be deleted vs using line/delete[1] which deletes all previous lines
+//LINE TEMPLATE
+//@version=5
+indicator(title = 'TEMPLATE - Lines using Array', overlay = true)
+GROUP_NAME = 'Line Settings'
+//USER INPUTS
+num_of_lines = input.int(
+ defval = 5,
+ title = 'Number of Lines to show on Chart',
+ group = GROUP_NAME,
+ tooltip = 'Use this option to set the total number of lines visible on the chart (default is 5)',
+ minval = 1,
+ maxval = 50
+ )
+
+line_width_settings = input.int(                                                                                            
+ defval = 1,                                                                                                                    
+ title = 'Set Line Width',                                                                                                
+ group = GROUP_NAME,                                                                                                       
+ tooltip = 'Use this option to set the width of the Line (default is 1, max is 8)',                  
+ minval = 1,                                                                                                                    
+ maxval = 8                                                                                                                     
+ )                                                                                                                              
+line_right_length_settings = input.int(                                                                                           
+ defval = 20,                                                                                                                  
+ title = 'Set Line Length',                                                                                               
+ group = GROUP_NAME,                                                                                                       
+ tooltip = 'Use this option to set the right length of the Line (default is 20, max is 60)',              
+ minval = 1,                                                                                                                    
+ maxval = 60                                                                                                                   
+ )               
+line_left_length_settings = input.int(                                                                                           
+ defval = -20,                                                                                                                  
+ title = 'Set Line Length',                                                                                               
+ group = GROUP_NAME,                                                                                                       
+ tooltip = 'Use this option to set the left length of the Line (default is -20, max is 1)',              
+ minval = -20,                                                                                                                    
+ maxval = 1                                                                                                                   
+ )                                                                                                                          
+// Sample Line array version
+var line [] sampleline_02_array = array.new_line()
+var line sampleline_02 = na
+if high > high[1] 
+     and high[1] > high[2] 
+     and high[2] > high[3] 
+     and high[3] > high[4] 
+     and high[4] > high[5] 
+     and high[5] > high [6] 
+     and high[6] > high[7] 
+     and high [7] > high[8] 
+     and high[8] > high[9]// Use whatever if statement you would like here
+    sampleline_02 := line.new(bar_index+line_left_length_settings, high, bar_index+line_right_length_settings, high, color = color.new(color.red, 0), width = line_width_settings, style = line.style_dashed)
+    array.push(sampleline_02_array, sampleline_02)
+
+    if array.size(sampleline_02_array) > num_of_lines
+        line.delete(array.shift(sampleline_02_array))

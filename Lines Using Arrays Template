@@ -4,6 +4,9 @@
 //LINE TEMPLATE
 //@version=5
 indicator(title = 'TEMPLATE - Lines using Array', overlay = true)
+//If you will be using this script as a standalone indicator simply keep everything above this line
+//If you are going to add this to your existing indicator delete evrything above this line.
+//START LINES SCRIPT
 GROUP_NAME = 'Line Settings'
 //USER INPUTS
 num_of_lines = input.int(
@@ -56,3 +59,4 @@ if high > high[1]
 
     if array.size(sampleline_02_array) > num_of_lines
         line.delete(array.shift(sampleline_02_array))
+//END LINES SCRIPT

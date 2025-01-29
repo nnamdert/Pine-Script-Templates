@@ -1,0 +1,38 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © nnamdert
+// This script is a simple color coded price line with a price label. It works with overlay = true scripts.
+//@version=6
+indicator('ADA Price Line by nnamdert', overlay = true)
+//01-28-2025
+//If you want to use the script as a standalone script, just use the whole script, if you want to add the script to you existing 
+//script, simply delete everything above this message and post what is below this message into your existing script.
+//==============================================================================================================================//
+//                                                        PRICE LINE CODE                                                       //
+//==============================================================================================================================//
+//Begin Price Line                                                                                                                                                                      
+bullish_direction = close >= open[1] //Price is currently HIGHER than the opening price                                         
+bearish_direction = close <= open[1] //Price is currently LOWER than the opening price                                          
+green_bar = open < close // Candle is a GREEN Candle                                                                            
+red_bar = open > close // Candle is a RED Candle                                                                                
+strong_bullish_direction = bullish_direction and green_bar // for bullish price color (Green Bar and Price is Higher than open) 
+strong_bearish_direction = bearish_direction and red_bar // for bearish price color (Red Bar and Price is Lower than open)        
+nuetral_bar = not strong_bearish_direction and not strong_bullish_direction // for neutral price color - This happens when the  
+//price is NOT strong Bullish and NOT strong bearish meaning that the direction may be bullish, but the candle is red or that   
+//the direction is bearish, but the candle is green. In other words, it is neither Strong Bearish or Strong Bullish.            
+var line line_price = na //Initiate an empty line variable                                                                      
+var label label_price = na //Intitiate an empty label variable                                                                                                                                                                        //
+line_forward = input.int(7, title = 'Price Line Positive offset Length') // distance FORWARD from bar_index / current bar       
+line_back = input.int(-200, title = ' Price Line Negative offset length') // distance BACKWARDS from the bar_index / current bar
+label_offset = input.int(12) // distance FORWARD from bar_index / current bar                                                   
+if bool(bar_index) //barstate.isrealtime // Is the Bar open and moving in realtime? User wants to see the price line?                 
+    line.delete(line_price[0])
+    label.delete(label_price[0])
+    price = close // current price of asset in realtime                                                                           
+    line_price := line.new(bar_index + line_forward, close, bar_index + line_back, close, color = strong_bullish_direction 
+     ? color.new(color.lime, 0) : strong_bearish_direction ? color.new(color.red, 0) : nuetral_bar 
+     ? color.new(color.orange, 0) : na, width = 2, style = line.style_dotted)
+    label_price := label.new(bar_index + label_offset, close, text = '$' + str.tostring(price), 
+     color = na, textcolor = strong_bullish_direction ? color.new(color.lime, 0) : strong_bearish_direction 
+     ? color.new(color.red, 0) : nuetral_bar ? color.new(color.orange, 0) : na, size = size.large)
+    label_price
+//End Price Line

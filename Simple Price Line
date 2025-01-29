@@ -1,4 +1,4 @@
-// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// This source code is subject to the terms of the Creative Commons Zero v1.0 Universal https://creativecommons.org/publicdomain/zero/1.0/deed.en
 // © nnamdert
 // This script is a simple color coded price line with a price label. It works with overlay = true scripts.
 //@version=6
